@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Rules</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">All Rules</h2>
+        <table class="table table-hover table-bordered shadow-sm bg-white">
+            <thead class="table-light">
+                <tr>
+                    <th>Rule ID</th>
+                    <th>Rule</th>
+                </tr>
+            </thead>
+            <tbody id="rules-list"></tbody>
+        </table>
+        <a href="/" class="btn btn-secondary w-100 mt-3">Back to Home</a>
+    </div>
+
+    <script>
+        async function loadRules() {
+            const response = await fetch('/rules');
+            const rules = await response.json();
+            const rulesList = document.getElementById('rules-list');
+            rulesList.innerHTML = rules.map(rule => `
+                <tr>
+                    <td>${rule._id}</td>
+                    <td>${rule.rule_string}</td>
+                </tr>
+            `).join('');
+        }
+        loadRules();
+    </script>
+</body>
+</html>
+
+
+
+

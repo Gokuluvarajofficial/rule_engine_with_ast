@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluate Rule</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">Evaluate Rule</h2>
+        <form id="evaluate-rule-form" class="shadow-sm p-4 bg-white rounded">
+            <div class="mb-3">
+                <label for="rule_id" class="form-label">Rule ID</label>
+                <input type="text" class="form-control" id="rule_id" required>
+            </div>
+            <div class="mb-3">
+                <label for="user_data" class="form-label">User Data (JSON format)</label>
+                <textarea class="form-control" id="user_data" rows="5" required placeholder='{ "age": 30, "department": "Sales" }'></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Evaluate Rule</button>
+        </form>
+        <div id="result-message" class="mt-4" style="display:none;"></div>
+    </div>
+
+    <script>
+        document.getElementById("evaluate-rule-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+            const rule_id = document.getElementById("rule_id").value;
+            const user_data = document.getElementById("user_data").value;
+
+            try {
+                const response = await fetch(`/evaluate_rule/${rule_id}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: user_data
+                });
+
+                const result = await response.json();
+                document.getElementById("result-message").style.display = 'block';
+                document.getElementById("result-message").innerText = `Evaluation Result: ${result.result}`;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
